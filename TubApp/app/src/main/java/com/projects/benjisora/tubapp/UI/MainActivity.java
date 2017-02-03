@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.fragment.FavoritesFragment;
 import com.projects.benjisora.tubapp.fragment.MapsFragment;
+import com.projects.benjisora.tubapp.fragment.SchedulesFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()){
             case R.id.nav_schedules:
-                //fragmentClass = MainFragment.class;
+                fragmentClass = SchedulesFragment.class;
                 break;
             case R.id.nav_map:
                 fragmentClass = MapsFragment.class;
@@ -92,8 +93,8 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = FavoritesFragment.class;
                 break;
             case R.id.nav_settings:
-                //intent = new Intent(MainActivity.this, MapActivity.class);
-                //startActivity(intent);
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 break;
         }
 
