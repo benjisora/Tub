@@ -30,7 +30,7 @@ import com.projects.benjisora.tubapp.ui.MainActivity;
 import java.util.ArrayList;
 
 /**
- * Created by iem on 02/11/2016.
+ * Created by benjamin_saugues on 02/11/2016.
  */
 
 public class MapsFragment extends Fragment {
@@ -45,7 +45,7 @@ public class MapsFragment extends Fragment {
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
-        mMapView.onResume(); // needed to get the map to display immediately
+        mMapView.onResume();
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());

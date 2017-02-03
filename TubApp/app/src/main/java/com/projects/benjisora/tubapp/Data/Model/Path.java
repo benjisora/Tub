@@ -6,7 +6,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
- * Created by iem on 03/02/2017.
+ * Created by benjamin_saugues on 03/02/2017.
  */
 
 public class Path extends BaseModel {
