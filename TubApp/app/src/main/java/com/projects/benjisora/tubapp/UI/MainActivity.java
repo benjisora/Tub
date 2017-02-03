@@ -19,6 +19,7 @@ import android.view.MenuItem;
 
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.fragment.FavoritesFragment;
+import com.projects.benjisora.tubapp.fragment.MapsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -85,8 +86,7 @@ public class MainActivity extends AppCompatActivity
                 //fragmentClass = MainFragment.class;
                 break;
             case R.id.nav_map:
-                //intent = new Intent(MainActivity.this, MapActivity.class);
-                //startActivity(intent);
+                fragmentClass = MapsFragment.class;
                 break;
             case R.id.nav_favorites:
                 fragmentClass = FavoritesFragment.class;
