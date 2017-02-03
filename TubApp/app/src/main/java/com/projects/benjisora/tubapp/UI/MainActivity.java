@@ -1,8 +1,12 @@
 package com.projects.benjisora.tubapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.projects.benjisora.tubapp.R;
+import com.projects.benjisora.tubapp.fragment.FavoritesFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,22 +74,40 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        Fragment fragment = null;
+        Class fragmentClass = null;
+        Intent intent = null;
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (item.getItemId()){
+            case R.id.nav_schedules:
+                //fragmentClass = MainFragment.class;
+                break;
+            case R.id.nav_map:
+                //intent = new Intent(MainActivity.this, MapActivity.class);
+                //startActivity(intent);
+                break;
+            case R.id.nav_favorites:
+                fragmentClass = FavoritesFragment.class;
+                break;
+            case R.id.nav_settings:
+                //intent = new Intent(MainActivity.this, MapActivity.class);
+                //startActivity(intent);
+                break;
+        }
 
-        } else if (id == R.id.nav_slideshow) {
+        try {
+            if (fragmentClass != null) {
+                fragment = (Fragment) fragmentClass.newInstance();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.getTag()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
