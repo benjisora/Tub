@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_category_other">Autre</string>
+    <string name="nav_favorites">Favoris</string>
+    <string name="nav_map">Carte</string>
+    <string name="nav_schedules">Horaires</string>
+    <string name="nav_settings">Parametres</string>
+</resources>
