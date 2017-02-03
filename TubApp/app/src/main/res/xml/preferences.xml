@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference android:title="Server Address"
+        android:key="url"
+        android:summary="Please provide the server address you want to use"
+        android:hint="https://tub.bourgmapper.fr/api/"/>
+
+    <CheckBoxPreference android:title="Lines Updates"
+        android:defaultValue="true"
+        android:summary="Selecting this option will allow the application to check for lines updates at every launch."
+        android:key="updates" />
+
+    <ListPreference     android:title="Download Details"
+        android:summary="Select the kind of data that you would like to download"
+        android:key="downloadType"
+        android:defaultValue="1"
+        android:entries="@array/listArray"
+        android:entryValues="@array/listValues" />
+
+</PreferenceScreen>

@@ -1,6 +1,8 @@
 package com.projects.benjisora.tubapp.data.database;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,10 +24,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyApplication extends Application {
 
     private static Retrofit retrofit;
+    private static String url;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        url = SP.getString("url", "https://tub.bourgmapper.fr/api/");
+
         FlowManager.init(new FlowConfig.Builder(this).build());
     }
 
@@ -33,7 +39,7 @@ public class MyApplication extends Application {
         if(retrofit == null) {
             Gson gson = new GsonBuilder().create();
             retrofit  = new Retrofit.Builder()
-                    .baseUrl("https://tub.bourgmapper.fr/api/")
+                    .baseUrl(url)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }

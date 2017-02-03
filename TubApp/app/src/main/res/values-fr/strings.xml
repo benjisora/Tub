@@ -6,4 +6,6 @@
     <string name="nav_schedules">Horaires</string>
     <string name="nav_settings">Parametres</string>
     <string name="nav_header_title">Transports Urbains Bourg-en-Bresse</string>
+    <string name="log_error">Erreur :</string>
+    <string name="action_refresh" translatable="false">Rafraichir</string>
 </resources>
