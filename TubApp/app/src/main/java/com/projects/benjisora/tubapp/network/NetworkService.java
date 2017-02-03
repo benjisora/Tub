@@ -10,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 /**
- * Created by iem on 03/02/2017.
+ * Created by benjamin_saugues on 03/02/2017.
  */
 
 public interface NetworkService {
@@ -20,4 +20,5 @@ public interface NetworkService {
 
     @GET("stops")
     Call<Stops> getAllStops();
+
 }

@@ -20,12 +20,14 @@ import retrofit2.Response;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
+    private Call<Paths> call = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         NetworkService networkService = MyApplication.getNetworkServiceInstance();
-        final Call<Paths> call = networkService.getAllPaths();
+        call = networkService.getAllPaths();
 
         call.enqueue(new Callback<Paths>() {
             @Override
@@ -54,5 +56,13 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(call != null) {
+            call.cancel();
+        }
     }
 }
