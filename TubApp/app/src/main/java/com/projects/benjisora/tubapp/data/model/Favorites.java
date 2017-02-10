@@ -13,7 +13,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 @Table(database = TubDataBase.class)
 public class Favorites extends BaseModel {
 
-    @PrimaryKey
+    @PrimaryKey(autoincrement = true)
     @Column
     private int id;
 

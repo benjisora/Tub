@@ -1,6 +1,7 @@
 package com.projects.benjisora.tubapp.data.database;
 
 import com.projects.benjisora.tubapp.data.model.Favorites;
+import com.projects.benjisora.tubapp.data.model.Favorites_Table;
 import com.projects.benjisora.tubapp.data.model.Path;
 import com.projects.benjisora.tubapp.data.model.Path_Table;
 import com.projects.benjisora.tubapp.data.model.Stop;
@@ -27,6 +28,7 @@ public class Utils {
         return instanceUtils;
     }
 
+    //QUERY: Path
     public List<Path> getAllPaths(){
         return SQLite.select()
                 .from(Path.class)
@@ -40,6 +42,7 @@ public class Utils {
                 .querySingle();
     }
 
+    //QUERY: Stop
     public List<Stop> getAllStops(){
         return SQLite.select()
                 .from(Stop.class)
@@ -67,9 +70,21 @@ public class Utils {
                 .querySingle();
     }
 
+    //QUERY Favorite
     public List<Favorites> getFavorites(){
         return SQLite.select()
                 .from(Favorites.class)
                 .queryList();
+    }
+
+    public Boolean pathIsFav(int id){
+        Favorites fav = SQLite.select()
+                .from(Favorites.class)
+                .where(Favorites_Table.id_path.eq(id))
+                .querySingle();
+        if(fav != null){
+            return true;
+        }
+        return false;
     }
 }
