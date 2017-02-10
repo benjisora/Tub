@@ -13,6 +13,9 @@ import com.projects.benjisora.tubapp.data.model.Paths;
 import com.projects.benjisora.tubapp.network.NetworkService;
 import com.projects.benjisora.tubapp.ui.MainActivity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,7 +57,13 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         if(response != null){
             Paths p = response.body();
+            Pattern pat = Pattern.compile("\\: (.*)");
             for(Path path : p.lines){
+
+                Matcher m = pat.matcher(path.getLabel());
+                if(m.find())
+                    path.setLabel(m.group(1));
+
                 path.save();
             }
         }

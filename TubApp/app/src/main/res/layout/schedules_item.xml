@@ -1,5 +1,6 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -57,13 +58,14 @@
             android:gravity="center|end"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.like.LikeButton
+                app:icon_type="heart"
+                app:icon_size="25dp"
                 android:id="@+id/likeImageView"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="8dp"
-                android:alpha="0.5"
-                android:src="@drawable/ic_favorite_border_black_24dp" />
+                app:circle_end_color="#F00"/>
 
         </LinearLayout>
 
