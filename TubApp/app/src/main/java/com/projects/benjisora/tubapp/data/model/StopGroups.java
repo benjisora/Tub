@@ -1,6 +1,5 @@
 package com.projects.benjisora.tubapp.data.model;
 
-import com.google.gson.annotations.SerializedName;
 import com.projects.benjisora.tubapp.data.database.TubDataBase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -8,32 +7,27 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
- * Created by benjamin_saugues on 03/02/2017.
+ * Created by benjamin_saugues on 10/02/2017.
  */
 
 @Table(database = TubDataBase.class)
-public class Path extends BaseModel{
+public class StopGroups extends BaseModel {
 
     @PrimaryKey
     @Column
-    @SerializedName("id")
     private int id;
 
     @Column
-    @SerializedName("label")
-    private String label;
+    private String way;
 
     @Column
-    private int number;
-
-    @Column
-    @SerializedName("color")
-    private String color;
-
-    @Column
-    @SerializedName("order")
     private int order;
 
+    @Column
+    private int id_stop;
+
+    @Column
+    private int id_line;
 
     public int getId() {
         return id;
@@ -43,20 +37,12 @@ public class Path extends BaseModel{
         this.id = id;
     }
 
-    public String getLabel() {
-        return label;
+    public String getWay() {
+        return way;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
+    public void setWay(String way) {
+        this.way = way;
     }
 
     public int getOrder() {
@@ -67,11 +53,19 @@ public class Path extends BaseModel{
         this.order = order;
     }
 
-    public int getNumber() {
-        return number;
+    public int getId_stop() {
+        return id_stop;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setId_stop(int id_stop) {
+        this.id_stop = id_stop;
+    }
+
+    public int getId_line() {
+        return id_line;
+    }
+
+    public void setId_line(int id_line) {
+        this.id_line = id_line;
     }
 }

@@ -1,7 +1,7 @@
 package com.projects.benjisora.tubapp.adapter;
 
 /**
- * Created by iem on 07/02/2017.
+ * Created by benjamin_saugues on 07/02/2017.
  */
 
 import android.content.Context;
