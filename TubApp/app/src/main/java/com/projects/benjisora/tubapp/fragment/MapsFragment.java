@@ -29,6 +29,8 @@ import com.projects.benjisora.tubapp.ui.MainActivity;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+
 /**
  * Created by benjamin_saugues on 02/11/2016.
  */
