@@ -30,6 +30,7 @@ import com.projects.benjisora.tubapp.ui.MainActivity;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by benjamin_saugues on 02/11/2016.
@@ -37,16 +38,18 @@ import butterknife.BindView;
 
 public class MapsFragment extends Fragment {
 
+    @BindView(R.id.mapView)
     MapView mMapView;
+
     private GoogleMap googleMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mMapView = (MapView) rootView.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
+        ButterKnife.bind(this, rootView);
 
+        mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
         try {
