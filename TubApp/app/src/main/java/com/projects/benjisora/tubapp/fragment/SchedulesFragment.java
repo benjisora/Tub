@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.adapter.SchedulesAdapter;
+import com.projects.benjisora.tubapp.data.database.Utils;
 import com.projects.benjisora.tubapp.data.model.Path;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +25,7 @@ public class SchedulesFragment extends Fragment {
     RecyclerView myRecyclerView;
 
     public SchedulesFragment() {
-        // Required empty public constructor
+        //empty constructor
     }
 
 
@@ -37,9 +39,8 @@ public class SchedulesFragment extends Fragment {
         LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
         MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        //TODO: check if there're paths in the database
-        if (myRecyclerView != null) {
-            myRecyclerView.setAdapter(new SchedulesAdapter(getActivity()));
+        if (myRecyclerView != null && Utils.getinstance().getAllPaths() != null) {
+            myRecyclerView.setAdapter(new SchedulesAdapter());
         }
         myRecyclerView.setLayoutManager(MyLayoutManager);
 

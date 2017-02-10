@@ -5,8 +5,8 @@ package com.projects.benjisora.tubapp.adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.projects.benjisora.tubapp.R;
+import com.projects.benjisora.tubapp.data.database.Utils;
+import com.projects.benjisora.tubapp.data.model.Favorites;
 import com.projects.benjisora.tubapp.data.model.Path;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,26 +29,12 @@ import butterknife.ButterKnife;
 
 public class SchedulesAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-    private ArrayList<Path> list = new ArrayList<>();
-    private Context context;
+    private List<Path> list;
+    private List<Favorites> favs;
 
-    public SchedulesAdapter(Context context) {
-        this.context = context;
-
-        Path path = new Path();
-        path.setLabel("St Denis Collège <> Clinique Convert/EREA La Chagne");
-        path.setId(4);
-        path.setColor("#AAAAAA");
-
-        Path path2 = new Path();
-        path2.setLabel("Norelan <> Ainterexpo");
-        path2.setId(27);
-        path2.setColor("#ADFEBC");
-
-        list.add(path);
-        list.add(path2);
-
-        // TODO: recuperer les paths depuis la database
+    public SchedulesAdapter() {
+        list = Utils.getinstance().getAllPaths();
+        favs = Utils.getinstance().getFavorites();
     }
 
     @Override
@@ -54,21 +42,21 @@ public class SchedulesAdapter extends RecyclerView.Adapter<MyViewHolder> {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.schedules_item, parent, false);
-        return new MyViewHolder(context, view);
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-
+        //TODO : bind tous les champs, et setTag sur like icon pour savoir si liked ou pas
         holder.titleTextView.setText(list.get(position).getLabel());
+
+        //TODO: si path est dans favs...
         holder.likeImageView.setTag(R.drawable.ic_favorite_border_black_24dp);
 
         TextDrawable drawable = TextDrawable.builder()
                 .buildRect(String.valueOf(list.get(position).getId()), Color.parseColor(list.get(position).getColor()));
 
         holder.backgroundImageView.setImageDrawable(drawable);
-
-        //TODO : bind tous les champs, et setTag sur like icon pour savoir si liked ou pas
     }
 
     @Override
@@ -89,14 +77,16 @@ class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView likeImageView;
 
 
-    MyViewHolder(final Context context, View v) {
+    MyViewHolder(View v) {
         super(v);
         ButterKnife.bind(this, v);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Context context = view.getContext();
+                //Intent intent = new Intent(context, DetailsActivity.class);
+                //context.startActivity(intent);
             }
         });
 
@@ -105,29 +95,30 @@ class MyViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
 
 
-                int id = (int)likeImageView.getTag();
-                if( id == R.drawable.ic_favorite_border_black_24dp){
+                int id = (int) likeImageView.getTag();
+                if (id == R.drawable.ic_favorite_border_black_24dp) {
 
                     likeImageView.setTag(R.drawable.ic_favorite_black_24dp);
                     likeImageView.setImageResource(R.drawable.ic_favorite_black_24dp);
 
-                    Toast.makeText(context,R.string.title_activity_main,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), R.string.added_fav, Toast.LENGTH_SHORT).show();
+
+                    Favorites fav = new Favorites();
+                    fav.setId_path(getAdapterPosition() + 1);
 
                     // TODO: Ajouter aux favs
 
-                }else{
+                } else {
 
                     likeImageView.setTag(R.drawable.ic_favorite_border_black_24dp);
                     likeImageView.setImageResource(R.drawable.ic_favorite_border_black_24dp);
 
-                    Toast.makeText(context,R.string.title_activity_main,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), R.string.removed_fav, Toast.LENGTH_SHORT).show();
 
                     // TODO: Retirer des favs
 
                 }
-
             }
         });
-
     }
 }

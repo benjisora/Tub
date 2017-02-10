@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.projects.benjisora.tubapp.data.database.MyApplication;
+import com.projects.benjisora.tubapp.data.model.Path;
 import com.projects.benjisora.tubapp.data.model.Paths;
 import com.projects.benjisora.tubapp.network.NetworkService;
 import com.projects.benjisora.tubapp.ui.MainActivity;
@@ -50,14 +51,14 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     public void updateSucceeded(Response<Paths> response) {
-        /*
+
         if(response != null){
             Paths p = response.body();
             for(Path path : p.lines){
                 path.save();
             }
         }
-        */
+
         startIntentAndFinish(new Intent(SplashScreenActivity.this, MainActivity.class));
     }
 

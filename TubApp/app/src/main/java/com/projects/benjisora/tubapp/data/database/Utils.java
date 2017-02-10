@@ -27,7 +27,7 @@ public class Utils {
         return instanceUtils;
     }
 
-    public List<Path> getPathAll(){
+    public List<Path> getAllPaths(){
         return SQLite.select()
                 .from(Path.class)
                 .queryList();
@@ -40,7 +40,7 @@ public class Utils {
                 .querySingle();
     }
 
-    public List<Stop> getStopAll(){
+    public List<Stop> getAllStops(){
         return SQLite.select()
                 .from(Stop.class)
                 .queryList();
@@ -66,8 +66,6 @@ public class Utils {
                 .and(Stop_Table.longitude.eq(longitude))
                 .querySingle();
     }
-
-    //MARK:Favorites table query
 
     public List<Favorites> getFavorites(){
         return SQLite.select()
