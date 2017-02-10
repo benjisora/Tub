@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.projects.benjisora.tubapp.data.database.MyApplication;
 import com.projects.benjisora.tubapp.data.model.Path;
@@ -63,7 +64,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Matcher m = pat.matcher(path.getLabel());
                 if(m.find())
                     path.setLabel(m.group(1));
-
                 path.save();
             }
         }
@@ -73,6 +73,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     public void updateFailed(Throwable t) {
         Log.e("RetrofitError", getString(R.string.log_error), t);
+        Toast.makeText(this, R.string.error_fetching_data, Toast.LENGTH_SHORT).show();
+
         startIntentAndFinish(new Intent(SplashScreenActivity.this, MainActivity.class));
     }
 

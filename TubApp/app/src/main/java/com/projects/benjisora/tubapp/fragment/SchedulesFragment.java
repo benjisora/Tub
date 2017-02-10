@@ -17,24 +17,29 @@ import com.projects.benjisora.tubapp.data.model.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SchedulesFragment extends Fragment {
 
+    @BindView(R.id.recyclerView)
     RecyclerView myRecyclerView;
 
     public SchedulesFragment() {
-        //empty constructor
-    }
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
-        myRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+        ButterKnife.bind(this, view);
+
         myRecyclerView.setHasFixedSize(true);
         LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
         MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

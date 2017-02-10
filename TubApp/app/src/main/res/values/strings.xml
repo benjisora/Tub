@@ -15,5 +15,6 @@
     <string name="log_error">Error :</string>
     <string name="added_fav">Added to favorites</string>
     <string name="removed_fav">Removed from favorites</string>
+    <string name="error_fetching_data">Error while fetching data from the server</string>
 
 </resources>

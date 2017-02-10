@@ -1,13 +1,10 @@
 package com.projects.benjisora.tubapp.adapter;
 
-/**
- * Created by benjamin_saugues on 07/02/2017.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,47 +25,53 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Created by iem on 10/02/2017.
+ */
 
-public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.MySchedulesViewHolder> {
+public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.MyFavoritesViewHolder> {
 
-    private List<Path> list;
+    private List<Favorites> favs;
 
-    public SchedulesAdapter() {
-        list = Utils.getinstance().getAllPaths();
+    public FavoritesAdapter(List<Favorites> favs) {
+        this.favs = favs;
     }
 
     @Override
-    public MySchedulesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyFavoritesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.schedules_item, parent, false);
-        return new MySchedulesViewHolder(view);
+        return new MyFavoritesViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MySchedulesViewHolder holder, int position) {
-        //TODO : bind tous les champs, et setTag sur like icon pour savoir si liked ou pas
-        holder.titleTextView.setText(list.get(position).getLabel());
+    public void onBindViewHolder(final MyFavoritesViewHolder holder, int position) {
 
-        if (Utils.getinstance().pathIsFav(list.get(position).getId())) {
+        if (favs != null && !favs.isEmpty()) {
+
+            Path path = Utils.getinstance().getPath(favs.get(position).getId_path());
+
+            holder.titleTextView.setText(path.getLabel());
+
             holder.likeImageView.setLiked(true);
-        } else {
-            holder.likeImageView.setLiked(false);
+
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRect(String.valueOf(path.getNumber()),
+                            Color.parseColor(path.getColor()));
+
+            holder.backgroundImageView.setImageDrawable(drawable);
         }
 
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRect(String.valueOf(list.get(position).getNumber()), Color.parseColor(list.get(position).getColor()));
-
-        holder.backgroundImageView.setImageDrawable(drawable);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return Utils.getinstance().getFavorites().size();
     }
 
 
-    class MySchedulesViewHolder extends RecyclerView.ViewHolder {
+    class MyFavoritesViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.titleTextView)
         TextView titleTextView;
@@ -80,7 +83,7 @@ public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.MySc
         LikeButton likeImageView;
 
 
-        MySchedulesViewHolder(View v) {
+        MyFavoritesViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
@@ -96,16 +99,20 @@ public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.MySc
             likeImageView.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-
-                    new Favorites(getAdapterPosition() + 1).save();
-
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-
+                    favs.get(getAdapterPosition()).delete();
+                    removeAt(getAdapterPosition());
                 }
             });
         }
     }
+
+    private void removeAt(int position) {
+        favs.remove(position);
+        notifyItemRemoved(position);
+    }
 }
+
