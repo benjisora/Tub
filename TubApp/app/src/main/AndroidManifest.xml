@@ -33,7 +33,8 @@
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.SettingsActivity"/>
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.DetailsActivity"></activity>
     </application>
 
 </manifest>

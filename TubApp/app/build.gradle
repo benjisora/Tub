@@ -52,5 +52,7 @@ dependencies {
 
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
+    compile 'com.github.jd-alexander:LikeButton:0.2.0'
+
     testCompile 'junit:junit:4.12'
 }

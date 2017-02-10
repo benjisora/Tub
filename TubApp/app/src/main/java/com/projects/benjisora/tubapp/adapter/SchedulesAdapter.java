@@ -11,15 +11,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.data.database.Utils;
 import com.projects.benjisora.tubapp.data.model.Favorites;
 import com.projects.benjisora.tubapp.data.model.Path;
+import com.projects.benjisora.tubapp.ui.DetailsActivity;
 
 import java.util.List;
 
@@ -51,7 +55,7 @@ public class SchedulesAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.titleTextView.setText(list.get(position).getLabel());
 
         //TODO: si path est dans favs...
-        holder.likeImageView.setTag(R.drawable.ic_favorite_border_black_24dp);
+        holder.likeImageView.setLiked(false);
 
         TextDrawable drawable = TextDrawable.builder()
                 .buildRect(String.valueOf(list.get(position).getId()), Color.parseColor(list.get(position).getColor()));
@@ -74,7 +78,7 @@ class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView backgroundImageView;
 
     @BindView(R.id.likeImageView)
-    ImageView likeImageView;
+    LikeButton likeImageView;
 
 
     MyViewHolder(View v) {
@@ -85,11 +89,30 @@ class MyViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                //Intent intent = new Intent(context, DetailsActivity.class);
-                //context.startActivity(intent);
+                Intent intent = new Intent(context, DetailsActivity.class);
+                context.startActivity(intent);
             }
         });
 
+        likeImageView.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                Toast.makeText(likeButton.getContext(), R.string.added_fav, Toast.LENGTH_SHORT).show();
+
+                Favorites fav = new Favorites();
+                fav.setId_path(getAdapterPosition() + 1);
+
+                // TODO: Ajouter aux favs
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                Toast.makeText(likeButton.getContext(), R.string.removed_fav, Toast.LENGTH_SHORT).show();
+
+                // TODO: Retirer des favs
+            }
+        });
+/*
         likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,12 +124,7 @@ class MyViewHolder extends RecyclerView.ViewHolder {
                     likeImageView.setTag(R.drawable.ic_favorite_black_24dp);
                     likeImageView.setImageResource(R.drawable.ic_favorite_black_24dp);
 
-                    Toast.makeText(v.getContext(), R.string.added_fav, Toast.LENGTH_SHORT).show();
 
-                    Favorites fav = new Favorites();
-                    fav.setId_path(getAdapterPosition() + 1);
-
-                    // TODO: Ajouter aux favs
 
                 } else {
 
@@ -120,5 +138,6 @@ class MyViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+        */
     }
 }
