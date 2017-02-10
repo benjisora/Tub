@@ -20,6 +20,15 @@ public class Favorites extends BaseModel {
     @Column
     private int id_path;
 
+
+    public Favorites(){
+
+    }
+
+    public Favorites(int id_path){
+        this.id_path = id_path;
+    }
+
     public int getId() {
         return id;
     }

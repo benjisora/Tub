@@ -54,8 +54,11 @@ public class SchedulesAdapter extends RecyclerView.Adapter<MyViewHolder> {
         //TODO : bind tous les champs, et setTag sur like icon pour savoir si liked ou pas
         holder.titleTextView.setText(list.get(position).getLabel());
 
-        //TODO: si path est dans favs...
-        holder.likeImageView.setLiked(false);
+        if(Utils.getinstance().pathIsFav(position)){
+            holder.likeImageView.setLiked(true);
+        }else{
+            holder.likeImageView.setLiked(false);
+        }
 
         TextDrawable drawable = TextDrawable.builder()
                 .buildRect(String.valueOf(list.get(position).getId()), Color.parseColor(list.get(position).getColor()));
@@ -99,8 +102,8 @@ class MyViewHolder extends RecyclerView.ViewHolder {
             public void liked(LikeButton likeButton) {
                 Toast.makeText(likeButton.getContext(), R.string.added_fav, Toast.LENGTH_SHORT).show();
 
-                Favorites fav = new Favorites();
-                fav.setId_path(getAdapterPosition() + 1);
+                likeImageView.setLiked(true);
+                new Favorites(getAdapterPosition() + 1).insert();
 
                 // TODO: Ajouter aux favs
             }
@@ -108,6 +111,14 @@ class MyViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void unLiked(LikeButton likeButton) {
                 Toast.makeText(likeButton.getContext(), R.string.removed_fav, Toast.LENGTH_SHORT).show();
+
+                likeImageView.setLiked(false);
+
+                for (Favorites fav : Utils.getinstance().getFavorites()){
+                    if (fav.getId_path() == getAdapterPosition()+1){
+                        fav.delete();
+                    }
+                }
 
                 // TODO: Retirer des favs
             }
