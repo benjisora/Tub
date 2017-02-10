@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +29,12 @@ import butterknife.ButterKnife;
  * Created by iem on 10/02/2017.
  */
 
-public class FavoritesAdapter extends RecyclerView.Adapter<MyFavoritesViewHolder> {
+public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.MyFavoritesViewHolder> {
 
-    private List<Favorites> list;
-    private List<Path> paths;
+    private List<Favorites> favs;
 
-    public FavoritesAdapter() {
-        list = Utils.getinstance().getFavorites();
-        paths = Utils.getinstance().getAllPaths();
+    public FavoritesAdapter(List<Favorites> favs) {
+        this.favs = favs;
     }
 
     @Override
@@ -49,15 +48,17 @@ public class FavoritesAdapter extends RecyclerView.Adapter<MyFavoritesViewHolder
     @Override
     public void onBindViewHolder(final MyFavoritesViewHolder holder, int position) {
 
-        if(Utils.getinstance().pathIsFav(Utils.getinstance().getAllPaths().get(position).getId())) {
+        if (favs != null && !favs.isEmpty()) {
 
-            holder.titleTextView.setText(Utils.getinstance().getAllPaths().get(position).getLabel());
+            Path path = Utils.getinstance().getPath(favs.get(position).getId_path());
+
+            holder.titleTextView.setText(path.getLabel());
 
             holder.likeImageView.setLiked(true);
 
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRect(String.valueOf(Utils.getinstance().getAllPaths().get(position).getNumber()),
-                            Color.parseColor(Utils.getinstance().getAllPaths().get(position).getColor()));
+                    .buildRect(String.valueOf(path.getNumber()),
+                            Color.parseColor(path.getColor()));
 
             holder.backgroundImageView.setImageDrawable(drawable);
         }
@@ -68,48 +69,50 @@ public class FavoritesAdapter extends RecyclerView.Adapter<MyFavoritesViewHolder
     public int getItemCount() {
         return Utils.getinstance().getFavorites().size();
     }
-}
-
-class MyFavoritesViewHolder extends RecyclerView.ViewHolder {
-
-    @BindView(R.id.titleTextView)
-    TextView titleTextView;
-
-    @BindView(R.id.backgroundImageView)
-    ImageView backgroundImageView;
-
-    @BindView(R.id.likeImageView)
-    LikeButton likeImageView;
 
 
-    MyFavoritesViewHolder(View v) {
-        super(v);
-        ButterKnife.bind(this, v);
+    class MyFavoritesViewHolder extends RecyclerView.ViewHolder {
 
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, DetailsActivity.class);
-                context.startActivity(intent);
-            }
-        });
+        @BindView(R.id.titleTextView)
+        TextView titleTextView;
 
-        likeImageView.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
+        @BindView(R.id.backgroundImageView)
+        ImageView backgroundImageView;
 
-            }
+        @BindView(R.id.likeImageView)
+        LikeButton likeImageView;
 
-            @Override
-            public void unLiked(LikeButton likeButton) {
 
-                for (Favorites fav : Utils.getinstance().getFavorites()){
-                    if (fav.getId_path() == getAdapterPosition()+1){
-                        fav.delete();
-                    }
+        MyFavoritesViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    context.startActivity(intent);
                 }
-            }
-        });
+            });
+
+            likeImageView.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    favs.get(getAdapterPosition()).delete();
+                    removeAt(getAdapterPosition());
+                }
+            });
+        }
+    }
+
+    private void removeAt(int position) {
+        favs.remove(position);
+        notifyItemRemoved(position);
     }
 }
+

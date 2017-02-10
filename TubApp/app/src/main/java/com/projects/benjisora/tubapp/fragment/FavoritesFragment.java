@@ -13,6 +13,10 @@ import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.adapter.FavoritesAdapter;
 import com.projects.benjisora.tubapp.adapter.SchedulesAdapter;
 import com.projects.benjisora.tubapp.data.database.Utils;
+import com.projects.benjisora.tubapp.data.model.Favorites;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,8 +26,10 @@ public class FavoritesFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView myRecyclerView;
 
-    public FavoritesFragment() {
+    private List<Favorites> favs;
 
+    public FavoritesFragment() {
+        favs = Utils.getinstance().getFavorites();
     }
 
     @Override
@@ -39,7 +45,7 @@ public class FavoritesFragment extends Fragment {
         MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         if (myRecyclerView != null && Utils.getinstance().getFavorites() != null) {
-            myRecyclerView.setAdapter(new FavoritesAdapter());
+            myRecyclerView.setAdapter(new FavoritesAdapter(favs));
         }
         myRecyclerView.setLayoutManager(MyLayoutManager);
 

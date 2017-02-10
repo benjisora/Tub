@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class SchedulesAdapter extends RecyclerView.Adapter<MySchedulesViewHolder> {
+public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.MySchedulesViewHolder> {
 
     private List<Path> list;
 
@@ -50,9 +50,9 @@ public class SchedulesAdapter extends RecyclerView.Adapter<MySchedulesViewHolder
         //TODO : bind tous les champs, et setTag sur like icon pour savoir si liked ou pas
         holder.titleTextView.setText(list.get(position).getLabel());
 
-        if(Utils.getinstance().pathIsFav(list.get(position).getId())){
+        if (Utils.getinstance().pathIsFav(list.get(position).getId())) {
             holder.likeImageView.setLiked(true);
-        }else{
+        } else {
             holder.likeImageView.setLiked(false);
         }
 
@@ -66,45 +66,46 @@ public class SchedulesAdapter extends RecyclerView.Adapter<MySchedulesViewHolder
     public int getItemCount() {
         return list.size();
     }
-}
-
-class MySchedulesViewHolder extends RecyclerView.ViewHolder {
-
-    @BindView(R.id.titleTextView)
-    TextView titleTextView;
-
-    @BindView(R.id.backgroundImageView)
-    ImageView backgroundImageView;
-
-    @BindView(R.id.likeImageView)
-    LikeButton likeImageView;
 
 
-    MySchedulesViewHolder(View v) {
-        super(v);
-        ButterKnife.bind(this, v);
+    class MySchedulesViewHolder extends RecyclerView.ViewHolder {
 
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, DetailsActivity.class);
-                context.startActivity(intent);
-            }
-        });
+        @BindView(R.id.titleTextView)
+        TextView titleTextView;
 
-        likeImageView.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
+        @BindView(R.id.backgroundImageView)
+        ImageView backgroundImageView;
 
-                new Favorites(getAdapterPosition() + 1).save();
+        @BindView(R.id.likeImageView)
+        LikeButton likeImageView;
 
-            }
 
-            @Override
-            public void unLiked(LikeButton likeButton) {
+        MySchedulesViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
 
-            }
-        });
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+
+            likeImageView.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+
+                    new Favorites(getAdapterPosition() + 1).save();
+
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+
+                }
+            });
+        }
     }
 }
