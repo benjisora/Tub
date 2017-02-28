@@ -117,7 +117,7 @@
         <Style id='line-E84539-4-nodesc-normal'>
             <LineStyle>
                 <color>ff3945E8</color>
-                <width>4</width>
+                <width>10</width>
             </LineStyle>
             <BalloonStyle>
                 <text><![CDATA[<h3>$[name]</h3>]]></text>

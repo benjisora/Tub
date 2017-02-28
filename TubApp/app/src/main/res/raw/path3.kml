@@ -74,7 +74,7 @@
         <Style id='line-F7E907-4-normal'>
             <LineStyle>
                 <color>ff07E9F7</color>
-                <width>4</width>
+                <width>10</width>
             </LineStyle>
             <BalloonStyle>
                 <text><![CDATA[<h3>$[name]</h3>]]></text>

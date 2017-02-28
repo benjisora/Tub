@@ -54,7 +54,7 @@ public class Utils {
                 .from(Stop.class)
                 .where(Stop_Table.id
                         .in(
-                                SQLite.select()
+                                SQLite.select(StopGroups_Table.id)
                                         .from(StopGroups.class)
                                         .where(StopGroups_Table.id_line.eq(id))
                         )
