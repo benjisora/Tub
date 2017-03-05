@@ -21,6 +21,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,6 +47,7 @@ import com.projects.benjisora.tubapp.ui.MainActivity;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,43 +63,70 @@ public class MapsFragment extends Fragment {
     @BindView(R.id.mapView)
     MapView mMapView;
 
+    @BindView(R.id.spinner)
+    Spinner spinner;
+
     private GoogleMap googleMap;
     int id_path;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-        this.id_path = 1;
-        mMapView = (MapView) rootView.findViewById(R.id.mapView);
         ButterKnife.bind(this, rootView);
+
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
-
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        id_path  = SP.getInt("idToShow", 1);
+        final SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        id_path = SP.getInt("idToShow", 1);
+
+        spinner = new Spinner(getActivity());
+        List<String> spinnerArray = new ArrayList<>();
+        spinnerArray.add("All lines");
+        for(int i = 1; i < Utils.getinstance().getAllPaths().size()+1; i++){
+            spinnerArray.add("Line " + Utils.getinstance().getPath(i).getNumber());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(position==0){
+                    //TODO: afficher toutes les lignes
+                } else {
+                    SP.edit().putInt("idToShow", position).apply();
+                    Path path = Utils.getinstance().getPath(id_path);
+                    if (path != null) {
+                        List<Stop> stopList = Utils.getinstance().getStopForPath(id_path);
+                        drawKml("path" + id_path);
+                        for (Stop stop : stopList) {
+                            LatLng stopCoord = new LatLng(stop.getLatitude(), stop.getLongitude());
+                            addMapMarker(stopCoord, stop.getLabel(), path.getColor());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spinner.setSelection(0);
+            }
+        });
+
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                // For dropping a marker at a point on the Map
                 LatLng bourg = new LatLng(46.2053457, 5.2260777);
-                //googleMap.addMarker(new MarkerOptions().position(bourg).title("Marker Title").snippet("Marker Description"));
-                Path pat = Utils.getinstance().getPath(id_path);
-                if(pat != null){
-                    List<Stop> stopList = Utils.getinstance().getStopForPath(id_path);
-                    drawKml("path" + id_path);
-                    for (Stop stop: stopList) {
-                        LatLng stopCoord = new LatLng(stop.getLatitude(),stop.getLongitude());
-                        addMapMarker(stopCoord,stop.getLabel(),pat.getColor());
-                    }
-                }
-                // For zooming automatically to the location of the marker
+
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(bourg).zoom(13).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
@@ -104,19 +135,19 @@ public class MapsFragment extends Fragment {
         return rootView;
     }
 
-    private void drawKml(String kmlname){
+    private void drawKml(String kmlname) {
         Context context = getActivity().getApplicationContext();
         Resources res = context.getResources();
         int kmlId = res.getIdentifier(kmlname, "raw", context.getPackageName());
-        try{
+        try {
             KmlLayer layer = new KmlLayer(googleMap, kmlId, context);
             layer.addLayerToMap();
-        }catch (IOException | XmlPullParserException e){
+        } catch (IOException | XmlPullParserException e) {
             Log.d("MapsFragment", "drawKml: UNABLE TO LOAD KML");
         }
     }
 
-    private void addMapMarker(LatLng coord, String name, String color){
+    private void addMapMarker(LatLng coord, String name, String color) {
         Context context = getActivity().getApplicationContext();
         Resources res = context.getResources();
         Drawable busIcon = res.getDrawable(R.drawable.bus_stop_icon, context.getTheme());

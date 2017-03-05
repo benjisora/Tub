@@ -30,7 +30,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        url = SP.getString("url", "https://tub-rc.bourgmapper.fr/api/");
+        url = SP.getString("url", "https://tub.bourgmapper.fr/api/");
 
         FlowManager.init(new FlowConfig.Builder(this).build());
     }

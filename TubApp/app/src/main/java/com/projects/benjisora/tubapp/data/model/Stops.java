@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public class Stops {
-    public List<Path> stops;
+    public List<Stop> stops;
 }
