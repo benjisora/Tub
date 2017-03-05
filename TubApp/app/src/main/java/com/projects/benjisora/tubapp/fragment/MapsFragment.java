@@ -66,6 +66,7 @@ public class MapsFragment extends Fragment {
     @BindView(R.id.spinner)
     Spinner spinner;
 
+    private KmlLayer layer;
     private GoogleMap googleMap;
     int id_path;
 
@@ -84,39 +85,44 @@ public class MapsFragment extends Fragment {
         final SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         id_path = SP.getInt("idToShow", 1);
 
-        spinner = new Spinner(getActivity());
-        List<String> spinnerArray = new ArrayList<>();
+        ArrayList<String> spinnerArray = new ArrayList<String>();
         spinnerArray.add("All lines");
-        for(int i = 1; i < Utils.getinstance().getAllPaths().size()+1; i++){
-            spinnerArray.add("Line " + Utils.getinstance().getPath(i).getNumber());
+        for(int i = 1; i < Utils.getinstance().getAllPaths().size(); i++){
+            spinnerArray.add("Line " + i);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinner.setAdapter(adapter);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        spinner.setAdapter(spinnerArrayAdapter);
 
+        spinner.setSelection(1);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if(layer != null){
+                    layer.removeLayerFromMap();
+                    mMapView.invalidate();
+                }
                 if(position==0){
-                    //TODO: afficher toutes les lignes
                 } else {
+                    Log.d("MAP", String.valueOf(position));
                     SP.edit().putInt("idToShow", position).apply();
                     Path path = Utils.getinstance().getPath(id_path);
                     if (path != null) {
+                        Log.d("MAP", "path valide");
                         List<Stop> stopList = Utils.getinstance().getStopForPath(id_path);
                         drawKml("path" + id_path);
                         for (Stop stop : stopList) {
                             LatLng stopCoord = new LatLng(stop.getLatitude(), stop.getLongitude());
                             addMapMarker(stopCoord, stop.getLabel(), path.getColor());
                         }
+                    } else {
+                        Log.d("MAP","probleme de path");
                     }
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                spinner.setSelection(0);
+            public void onNothingSelected(AdapterView<?> parentView) {
+                spinner.setSelection(1);
             }
         });
 
@@ -140,7 +146,7 @@ public class MapsFragment extends Fragment {
         Resources res = context.getResources();
         int kmlId = res.getIdentifier(kmlname, "raw", context.getPackageName());
         try {
-            KmlLayer layer = new KmlLayer(googleMap, kmlId, context);
+            layer = new KmlLayer(googleMap, kmlId, context);
             layer.addLayerToMap();
         } catch (IOException | XmlPullParserException e) {
             Log.d("MapsFragment", "drawKml: UNABLE TO LOAD KML");
