@@ -1,5 +1,6 @@
 package com.projects.benjisora.tubapp.data.model;
 
+import com.google.gson.annotations.SerializedName;
 import com.projects.benjisora.tubapp.data.database.TubDataBase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -24,9 +25,11 @@ public class StopGroup extends BaseModel {
     private int order;
 
     @Column
+    @SerializedName("stop_id")
     private int id_stop;
 
     @Column
+    @SerializedName("line_id")
     private int id_line;
 
     public int getId() {
