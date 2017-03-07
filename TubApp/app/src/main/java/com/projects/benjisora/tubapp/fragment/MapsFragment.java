@@ -98,7 +98,8 @@ public class MapsFragment extends Fragment {
                     for (KmlLayer lay: layer ) {
                         lay.removeLayerFromMap();
                     }
-                    //mMapView.invalidate();
+                    googleMap.clear();
+                    mMapView.invalidate();
                 }
                 if(position==0){
                     List<Path> paths = Utils.getinstance().getAllPaths();
