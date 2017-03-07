@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.projects.benjisora.tubapp.R;
@@ -23,6 +22,9 @@ import com.projects.benjisora.tubapp.fragment.SchedulesFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * MainActivity class
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    /**
+     * {@inheritDoc}
+     * Binds the data, initializes the NavigationDrawer, and loads the default fragment
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +59,15 @@ public class MainActivity extends AppCompatActivity
         try {
             loadFragment(fragmentClass);
         } catch (Exception e) {
-            Log.e("RetrofitError", getString(R.string.log_error), e);
+            Log.e(getString(R.string.main_activity), getString(R.string.log_error), e);
         }
 
     }
 
+    /**
+     * {@inheritDoc}
+     * Closes the drawer if already open
+     */
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -67,10 +77,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * Manages the classes to load depending on the choice made
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Class fragmentClass = null;
-        Intent intent = null;
+        Intent intent;
 
         switch (item.getItemId()) {
             case R.id.nav_schedules:
@@ -94,23 +108,27 @@ public class MainActivity extends AppCompatActivity
         try {
             loadFragment(fragmentClass);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(getString(R.string.main_activity), getString(R.string.log_error), e);
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void loadFragment(Class c) throws Exception {
+    /**
+     * Loads the Fragment class
+     * @param classToLoad The class to load
+     * @throws Exception
+     */
+    public void loadFragment(Class classToLoad) throws Exception {
         Fragment fragment = null;
-        if (c != null) {
-            fragment = (Fragment) c.newInstance();
+        if (classToLoad != null) {
+            fragment = (Fragment) classToLoad.newInstance();
         }
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.getTag()).commit();
-            Log.d("loadFragment", "Fragment loaded, class name :" + c.getName());
         }
     }
 

@@ -3,11 +3,10 @@ package com.projects.benjisora.tubapp.data.database;
 import com.raizlabs.android.dbflow.annotation.Database;
 
 /**
- * Created by benjamin_saugues on 03/02/2017.
+ * Database class
  */
-
 @Database(name = TubDataBase.NAME, version = TubDataBase.VERSION)
 public class TubDataBase {
     public static final String NAME = "MyDataBase";
-    public static final int VERSION = 1;
+    static final int VERSION = 1;
 }

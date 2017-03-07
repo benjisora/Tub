@@ -8,9 +8,8 @@ import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
- * Created by benjamin_saugues on 10/02/2017.
+ * Favorites class
  */
-
 @Table(database = TubDataBase.class)
 public class Favorites extends BaseModel {
 
@@ -22,13 +21,8 @@ public class Favorites extends BaseModel {
     @Unique
     private int id_path;
 
+    public Favorites() {
 
-    public Favorites(){
-
-    }
-
-    public Favorites(int id_path){
-        this.id_path = id_path;
     }
 
     public int getId() {

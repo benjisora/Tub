@@ -12,38 +12,39 @@ import android.view.ViewGroup;
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.adapter.SchedulesAdapter;
 import com.projects.benjisora.tubapp.data.database.Utils;
-import com.projects.benjisora.tubapp.data.model.Path;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * A simple {@link Fragment} subclass.
+ * FavoritesFragment class
  */
 public class SchedulesFragment extends Fragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView myRecyclerView;
 
+    /**
+     * Default constructor
+     */
     public SchedulesFragment() {
-
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Binds the data and initializes the RecyclerView
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
-
         ButterKnife.bind(this, view);
 
         myRecyclerView.setHasFixedSize(true);
         LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
         MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         if (myRecyclerView != null && Utils.getinstance().getAllPaths() != null) {
             myRecyclerView.setAdapter(new SchedulesAdapter());
         }

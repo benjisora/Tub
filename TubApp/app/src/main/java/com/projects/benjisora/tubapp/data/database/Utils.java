@@ -13,14 +13,17 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 /**
- * Created by benjamin_saugues on 10/02/2017.
+ * Utils class, used to store the call functions to the database easily
  */
-
 public class Utils {
-
 
     private static Utils instanceUtils;
 
+    /**
+     * Gets the class instance
+     *
+     * @return Util's instance
+     */
     public static Utils getinstance() {
         if (instanceUtils == null) {
             instanceUtils = new Utils();
@@ -28,28 +31,67 @@ public class Utils {
         return instanceUtils;
     }
 
-    //QUERY: Path
-    public List<Path> getAllPaths(){
+    /**
+     * Database query to get all the paths
+     *
+     * @return All the stored paths
+     */
+    public List<Path> getAllPaths() {
         return SQLite.select()
                 .from(Path.class)
                 .queryList();
     }
 
-    public Path getPath(int id){
+    /**
+     * Database query to get a path from its id
+     *
+     * @param id The path id
+     * @return The corresponding path
+     */
+    public Path getPath(int id) {
         return SQLite.select()
                 .from(Path.class)
                 .where(Path_Table.id.eq(id))
                 .querySingle();
     }
 
-    //QUERY: Stop
-    public List<Stop> getAllStops(){
+    /**
+     * Database query to get all the stops
+     *
+     * @return All the stored stops
+     */
+    /*
+    public List<Stop> getAllStops() {
         return SQLite.select()
                 .from(Stop.class)
                 .queryList();
     }
+    */
 
-    public List<Stop> getStopForPath(int id){
+    /**
+     * Database query to get a stop from its coordinates
+     *
+     * @param latitude  The latitude of the stop
+     * @param longitude The longitude of the stop
+     * @return The corresponding stop
+     */
+    /*
+    public Stop getStop(double latitude, double longitude) {
+        return SQLite.select()
+                .from(Stop.class)
+                .where(Stop_Table.latitude.eq(latitude))
+                .and(Stop_Table.longitude.eq(longitude))
+                .querySingle();
+    }
+    */
+
+    /**
+     * Database query to get a stops from their corresponding path id
+     *
+     * @param id The path id
+     * @return The corresponding stops
+     */
+    public List<Stop> getStopForPath(int id) {
         return SQLite.select()
                 .from(Stop.class)
                 .where(Stop_Table.id
@@ -62,36 +104,41 @@ public class Utils {
                 .queryList();
     }
 
-    public Stop getStop(double latitude, double longitude){
-        return SQLite.select()
-                .from(Stop.class)
-                .where(Stop_Table.latitude.eq(latitude))
-                .and(Stop_Table.longitude.eq(longitude))
-                .querySingle();
-    }
-
-    //QUERY Favorite
-    public List<Favorites> getFavorites(){
+    /**
+     * Database query to get all the favorites
+     *
+     * @return All the stored favorites
+     */
+    public List<Favorites> getFavorites() {
         return SQLite.select()
                 .from(Favorites.class)
                 .queryList();
     }
 
-    public Favorites getFavorite(int id){
+    /**
+     * Database query to get a favorite from its id
+     *
+     * @param id The favorite id
+     * @return The corresponding favorite
+     */
+    public Favorites getFavorite(int id) {
         return SQLite.select()
                 .from(Favorites.class)
                 .where(Favorites_Table.id_path.eq(id))
                 .querySingle();
     }
 
-    public Boolean pathIsFav(int id){
+    /**
+     * Database query to get a favorite from its id
+     *
+     * @param id The path id
+     * @return true if the path is favorited, false otherwise
+     */
+    public Boolean pathIsFav(int id) {
         Favorites fav = SQLite.select()
                 .from(Favorites.class)
                 .where(Favorites_Table.id_path.eq(id))
                 .querySingle();
-        if(fav != null){
-            return true;
-        }
-        return false;
+        return fav != null;
     }
 }

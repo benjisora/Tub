@@ -25,12 +25,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * SplashScreen Activity
+ */
 public class SplashScreenActivity extends AppCompatActivity {
 
     private Call<Paths> callAllPaths = null;
     private Call<Stops> callAllStops = null;
     private Call<StopGroups> callAllStopGroups = null;
 
+    /**
+     * {@inheritDoc}
+     * Fetches data from the server if authorized before launching the {@link MainActivity}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,11 +87,19 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Checks wether or not the app should fetch data from the server
+     * @return true if an update is authorized, false otherwise
+     */
     public boolean shouldWeUpdate() {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         return SP.getBoolean("udpates", true);
     }
 
+    /**
+     * Saves the {@link Paths} into the database
+     * @param response The server's response
+    */
     public void updateSucceededAllPaths(Response<Paths> response) {
         if(response.code() == 200){
             Paths p = response.body();
@@ -98,20 +113,26 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Saves the {@link Stops} into the database
+     * @param response The server's response
+     */
     public void updateSucceededAllStops(Response<Stops> response) {
         if(response.code() == 200){
             Stops p = response.body();
-            System.out.println(response.body());
             for(Stop stop : p.stops){
                 stop.save();
             }
         }
     }
 
+    /**
+     * Saves the {@link StopGroups} into the database
+     * @param response The server's response
+     */
     public void updateSucceededAllStopGroups(Response<StopGroups> response) {
         if(response.code() == 200){
             StopGroups p = response.body();
-            System.out.println(response.body());
             for(StopGroup stopgroup : p.stopgroups){
                 stopgroup.save();
             }
@@ -119,24 +140,41 @@ public class SplashScreenActivity extends AppCompatActivity {
         startIntentAndFinish(new Intent(SplashScreenActivity.this, MainActivity.class));
     }
 
-
-    public void updateFailed(Throwable t) {
-        Log.e("RetrofitError", getString(R.string.log_error), t);
+    /**
+     * Displays an error if the app encounters a problem fetching data
+     * @param throwable The throwable to handle
+     */
+    public void updateFailed(Throwable throwable) {
+        Log.e(getString(R.string.retrofit_error_title), getString(R.string.log_error), throwable);
         Toast.makeText(this, R.string.error_fetching_data, Toast.LENGTH_SHORT).show();
 
         startIntentAndFinish(new Intent(SplashScreenActivity.this, MainActivity.class));
     }
 
+    /**
+     * Starts the Activity with the given intent, and finishes itself
+     * @param intent The intent to start the Activity
+     */
     public void startIntentAndFinish(Intent intent) {
         startActivity(intent);
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     * Cancels any call if still ongoing
+     */
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public void onDestroy() {
+        super.onDestroy();
         if (callAllPaths != null) {
             callAllPaths.cancel();
+        }
+        if (callAllStops != null) {
+            callAllStops.cancel();
+        }
+        if (callAllStopGroups != null) {
+            callAllStopGroups.cancel();
         }
     }
 }

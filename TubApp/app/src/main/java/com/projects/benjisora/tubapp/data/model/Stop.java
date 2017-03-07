@@ -1,6 +1,5 @@
 package com.projects.benjisora.tubapp.data.model;
 
-import com.google.gson.annotations.SerializedName;
 import com.projects.benjisora.tubapp.data.database.TubDataBase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -8,11 +7,10 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
- * Created by benjamin_saugues on 03/02/2017.
+ * Stop class
  */
-
 @Table(database = TubDataBase.class)
-public class Stop extends BaseModel{
+public class Stop extends BaseModel {
 
     @PrimaryKey
     @Column
@@ -43,12 +41,11 @@ public class Stop extends BaseModel{
         this.id = id;
     }
 
-
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -56,7 +53,7 @@ public class Stop extends BaseModel{
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

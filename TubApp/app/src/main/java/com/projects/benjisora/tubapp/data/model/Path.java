@@ -8,11 +8,10 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
- * Created by benjamin_saugues on 03/02/2017.
+ * Path class
  */
-
 @Table(database = TubDataBase.class)
-public class Path extends BaseModel{
+public class Path extends BaseModel {
 
     @PrimaryKey
     @Column
@@ -33,7 +32,6 @@ public class Path extends BaseModel{
     @Column
     @SerializedName("order")
     private int order;
-
 
     public int getId() {
         return id;
@@ -59,11 +57,11 @@ public class Path extends BaseModel{
         this.color = color;
     }
 
-    public int getOrder() {
+    int getOrder() {
         return order;
     }
 
-    public void setOrder(int order) {
+    void setOrder(int order) {
         this.order = order;
     }
 
@@ -71,7 +69,7 @@ public class Path extends BaseModel{
         return number;
     }
 
-    public void setNumber(int number) {
+    void setNumber(int number) {
         this.number = number;
     }
 }
