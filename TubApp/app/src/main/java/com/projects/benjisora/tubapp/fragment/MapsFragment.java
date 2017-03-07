@@ -84,8 +84,8 @@ public class MapsFragment extends Fragment {
         layer = new ArrayList<KmlLayer>();
         ArrayList<String> spinnerArray = new ArrayList<String>();
         spinnerArray.add("All lines");
-        for(int i = 1; i < Utils.getinstance().getAllPaths().size(); i++){
-            spinnerArray.add("Line " + i);
+        for(int i = 0; i < Utils.getinstance().getAllPaths().size(); i++){
+            spinnerArray.add("Line " + Utils.getinstance().getAllPaths().get(i).getNumber());
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         spinner.setAdapter(spinnerArrayAdapter);
@@ -108,7 +108,7 @@ public class MapsFragment extends Fragment {
                     }
                 } else {
                     Log.d("MAP", String.valueOf(position));
-                    Path path = Utils.getinstance().getAllPaths().get(position);
+                    Path path = Utils.getinstance().getAllPaths().get(position-1);
                     if (path != null) {
                         Log.d("MAP", "path valide");
                         List<Stop> stopList = Utils.getinstance().getStopForPath(path.getId());

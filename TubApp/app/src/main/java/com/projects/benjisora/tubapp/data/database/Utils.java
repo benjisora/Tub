@@ -54,9 +54,9 @@ public class Utils {
                 .from(Stop.class)
                 .where(Stop_Table.id
                         .in(
-                                SQLite.select(StopGroup_Table.id)
+                                SQLite.select(StopGroup_Table.stop_id)
                                         .from(StopGroup.class)
-                                        .where(StopGroup_Table.id_line.eq(id))
+                                        .where(StopGroup_Table.line_id.eq(id))
                         )
                 )
                 .queryList();
@@ -75,6 +75,13 @@ public class Utils {
         return SQLite.select()
                 .from(Favorites.class)
                 .queryList();
+    }
+
+    public Favorites getFavorite(int id){
+        return SQLite.select()
+                .from(Favorites.class)
+                .where(Favorites_Table.id_path.eq(id))
+                .querySingle();
     }
 
     public Boolean pathIsFav(int id){

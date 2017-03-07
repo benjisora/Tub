@@ -54,19 +54,19 @@ public class StopGroup extends BaseModel {
         this.order = order;
     }
 
-    public int getId_stop() {
+    public int getStop_id() {
         return stop_id;
     }
 
-    public void setId_stop(int id_stop) {
-        this.stop_id = id_stop;
+    public void setStop_id(int stop_id) {
+        this.stop_id = stop_id;
     }
 
-    public int getId_line() {
+    public int getLine_id() {
         return line_id;
     }
 
-    public void setId_line(int id_line) {
-        this.line_id = id_line;
+    public void setLine_id(int line_id) {
+        this.line_id = line_id;
     }
 }

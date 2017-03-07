@@ -89,21 +89,21 @@ public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.MySc
                 public void onClick(View view) {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, DetailsActivity.class);
-                    context.startActivity(intent);
+                    //context.startActivity(intent);
                 }
             });
 
             likeImageView.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-
-                    new Favorites(getAdapterPosition() + 1).save();
-
+                    Favorites fav = new Favorites();
+                    fav.setId_path(list.get(getAdapterPosition()).getId());
+                    fav.save();
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-
+                    Utils.getinstance().getFavorite(list.get(getAdapterPosition()).getId()).delete();
                 }
             });
         }
