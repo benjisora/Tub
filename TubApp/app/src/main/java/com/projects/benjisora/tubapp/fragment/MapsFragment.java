@@ -66,9 +66,8 @@ public class MapsFragment extends Fragment {
     @BindView(R.id.spinner)
     Spinner spinner;
 
-    private KmlLayer layer;
+    private ArrayList<KmlLayer> layer;
     private GoogleMap googleMap;
-    int id_path;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,9 +81,7 @@ public class MapsFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        final SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        id_path = SP.getInt("idToShow", 1);
-
+        layer = new ArrayList<KmlLayer>();
         ArrayList<String> spinnerArray = new ArrayList<String>();
         spinnerArray.add("All lines");
         for(int i = 1; i < Utils.getinstance().getAllPaths().size(); i++){
@@ -93,23 +90,28 @@ public class MapsFragment extends Fragment {
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         spinner.setAdapter(spinnerArrayAdapter);
 
-        spinner.setSelection(1);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if(layer != null){
-                    layer.removeLayerFromMap();
-                    mMapView.invalidate();
+                    for (KmlLayer lay: layer ) {
+                        lay.removeLayerFromMap();
+                    }
+                    //mMapView.invalidate();
                 }
                 if(position==0){
+                    List<Path> paths = Utils.getinstance().getAllPaths();
+                    for (Path path: paths) {
+                        drawKml("path" + path.getId());
+                    }
                 } else {
                     Log.d("MAP", String.valueOf(position));
-                    SP.edit().putInt("idToShow", position).apply();
-                    Path path = Utils.getinstance().getPath(id_path);
+                    Path path = Utils.getinstance().getAllPaths().get(position);
                     if (path != null) {
                         Log.d("MAP", "path valide");
-                        List<Stop> stopList = Utils.getinstance().getStopForPath(id_path);
-                        drawKml("path" + id_path);
+                        List<Stop> stopList = Utils.getinstance().getStopForPath(path.getId());
+                        drawKml("path" + path.getId());
                         for (Stop stop : stopList) {
                             LatLng stopCoord = new LatLng(stop.getLatitude(), stop.getLongitude());
                             addMapMarker(stopCoord, stop.getLabel(), path.getColor());
@@ -122,7 +124,7 @@ public class MapsFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                spinner.setSelection(1);
+
             }
         });
 
@@ -132,7 +134,7 @@ public class MapsFragment extends Fragment {
                 googleMap = mMap;
 
                 LatLng bourg = new LatLng(46.2053457, 5.2260777);
-
+                spinner.setSelection(1);
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(bourg).zoom(13).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
@@ -146,8 +148,8 @@ public class MapsFragment extends Fragment {
         Resources res = context.getResources();
         int kmlId = res.getIdentifier(kmlname, "raw", context.getPackageName());
         try {
-            layer = new KmlLayer(googleMap, kmlId, context);
-            layer.addLayerToMap();
+            layer.add(new KmlLayer(googleMap, kmlId, context));
+            layer.get(layer.size()-1).addLayerToMap();
         } catch (IOException | XmlPullParserException e) {
             Log.d("MapsFragment", "drawKml: UNABLE TO LOAD KML");
         }
