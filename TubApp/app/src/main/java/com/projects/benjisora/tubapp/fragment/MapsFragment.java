@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -68,6 +69,7 @@ public class MapsFragment extends Fragment {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             Log.e(getString(R.string.map_fragment), getString(R.string.log_error), e);
+            Toast.makeText(getActivity(), R.string.error_initializing_map,Toast.LENGTH_SHORT).show();
         }
         layer = new ArrayList<>();
         ArrayList<String> spinnerArray = new ArrayList<>();
@@ -144,6 +146,7 @@ public class MapsFragment extends Fragment {
             layer.get(layer.size() - 1).addLayerToMap();
         } catch (Exception e) {
             Log.e(getString(R.string.map_fragment), getString(R.string.log_error), e);
+            Toast.makeText(getActivity(), R.string.error_drawing_line,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -159,7 +162,7 @@ public class MapsFragment extends Fragment {
         Resources res = context.getResources();
         Drawable busIcon = res.getDrawable(R.drawable.bus_stop_icon, context.getTheme());
         Bitmap marker = UtilsDrawable.drawableToBitmap(busIcon);
-        marker = UtilsDrawable.changeBitmapColor(marker, Color.parseColor(color));
+        marker = UtilsDrawable.changeBitmapColor(getActivity(), marker, Color.parseColor(color));
         this.googleMap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromBitmap(marker))
                 .position(coord)

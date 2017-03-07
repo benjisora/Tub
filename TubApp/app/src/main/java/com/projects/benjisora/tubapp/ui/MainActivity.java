@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.fragment.FavoritesFragment;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -57,9 +59,11 @@ public class MainActivity extends AppCompatActivity
 
         Class fragmentClass = SchedulesFragment.class;
         try {
+            toolbar.setTitle("Schedules");
             loadFragment(fragmentClass);
         } catch (Exception e) {
             Log.e(getString(R.string.main_activity), getString(R.string.log_error), e);
+            Toast.makeText(this, R.string.error_loading_fragment,Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -88,12 +92,15 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.nav_schedules:
+                toolbar.setTitle("Schedules");
                 fragmentClass = SchedulesFragment.class;
                 break;
             case R.id.nav_map:
+                toolbar.setTitle("Map");
                 fragmentClass = MapsFragment.class;
                 break;
             case R.id.nav_favorites:
+                toolbar.setTitle("Favorites");
                 fragmentClass = FavoritesFragment.class;
                 break;
             case R.id.nav_settings:
@@ -101,6 +108,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             default:
+                toolbar.setTitle("Schedules");
                 fragmentClass = SchedulesFragment.class;
                 break;
         }
@@ -109,6 +117,7 @@ public class MainActivity extends AppCompatActivity
             loadFragment(fragmentClass);
         } catch (Exception e) {
             Log.e(getString(R.string.main_activity), getString(R.string.log_error), e);
+            Toast.makeText(this, R.string.error_loading_fragment,Toast.LENGTH_SHORT).show();
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -125,7 +134,6 @@ public class MainActivity extends AppCompatActivity
         if (classToLoad != null) {
             fragment = (Fragment) classToLoad.newInstance();
         }
-
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.getTag()).commit();

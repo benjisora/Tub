@@ -18,6 +18,10 @@
     <string name="retrofit_error_title" translatable="false">RetrofitError</string>
     <string name="main_activity" translatable="false">MainActivity</string>
     <string name="map_fragment" translatable="false">MapsFragment</string>
-    <string name="imageview_description">imageview</string>
+    <string name="imageview_description" translatable="false">imageview</string>
+    <string name="utils_drawable" translatable="false">UtilsDrawable</string>
+    <string name="error_drawing_line">Error while drawing the line</string>
+    <string name="error_initializing_map">Error while initializing the map</string>
+    <string name="error_loading_fragment">Error while loading the fragment</string>
 
 </resources>
