@@ -5,8 +5,8 @@ import com.projects.benjisora.tubapp.data.model.Favorites_Table;
 import com.projects.benjisora.tubapp.data.model.Path;
 import com.projects.benjisora.tubapp.data.model.Path_Table;
 import com.projects.benjisora.tubapp.data.model.Stop;
-import com.projects.benjisora.tubapp.data.model.StopGroups;
-import com.projects.benjisora.tubapp.data.model.StopGroups_Table;
+import com.projects.benjisora.tubapp.data.model.StopGroup;
+import com.projects.benjisora.tubapp.data.model.StopGroup_Table;
 import com.projects.benjisora.tubapp.data.model.Stop_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -54,9 +54,9 @@ public class Utils {
                 .from(Stop.class)
                 .where(Stop_Table.id
                         .in(
-                                SQLite.select(StopGroups_Table.id)
-                                        .from(StopGroups.class)
-                                        .where(StopGroups_Table.id_line.eq(id))
+                                SQLite.select(StopGroup_Table.id)
+                                        .from(StopGroup.class)
+                                        .where(StopGroup_Table.id_line.eq(id))
                         )
                 )
                 .queryList();

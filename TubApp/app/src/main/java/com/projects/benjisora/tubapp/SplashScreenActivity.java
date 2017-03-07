@@ -12,6 +12,7 @@ import com.projects.benjisora.tubapp.data.database.MyApplication;
 import com.projects.benjisora.tubapp.data.model.Path;
 import com.projects.benjisora.tubapp.data.model.Paths;
 import com.projects.benjisora.tubapp.data.model.Stop;
+import com.projects.benjisora.tubapp.data.model.StopGroup;
 import com.projects.benjisora.tubapp.data.model.StopGroups;
 import com.projects.benjisora.tubapp.data.model.Stops;
 import com.projects.benjisora.tubapp.network.NetworkService;
@@ -104,15 +105,16 @@ public class SplashScreenActivity extends AppCompatActivity {
             for(Stop stop : p.stops){
                 stop.save();
             }
-        } else {
-            System.out.println("cassé");
         }
     }
 
     public void updateSucceededAllStopGroups(Response<StopGroups> response) {
         if(response.code() == 200){
             StopGroups p = response.body();
-            p.save();
+            System.out.println(response.body());
+            for(StopGroup stopgroup : p.stopgroups){
+                stopgroup.save();
+            }
         }
         startIntentAndFinish(new Intent(SplashScreenActivity.this, MainActivity.class));
     }
