@@ -25,12 +25,10 @@ public class StopGroup extends BaseModel {
     private int order;
 
     @Column
-    @SerializedName("stop_id")
-    private int id_stop;
+    private int stop_id;
 
     @Column
-    @SerializedName("line_id")
-    private int id_line;
+    private int line_id;
 
     public int getId() {
         return id;
@@ -57,18 +55,18 @@ public class StopGroup extends BaseModel {
     }
 
     public int getId_stop() {
-        return id_stop;
+        return stop_id;
     }
 
     public void setId_stop(int id_stop) {
-        this.id_stop = id_stop;
+        this.stop_id = id_stop;
     }
 
     public int getId_line() {
-        return id_line;
+        return line_id;
     }
 
     public void setId_line(int id_line) {
-        this.id_line = id_line;
+        this.line_id = id_line;
     }
 }
