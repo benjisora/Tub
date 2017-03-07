@@ -9,8 +9,6 @@
     <CheckBoxPreference android:title="Lines Updates"
         android:defaultValue="true"
         android:summary="Selecting this option will allow the application to check for lines updates at every launch."
-        android:key="updates" />
-
-
+        android:key="udpates" />
 
 </PreferenceScreen>

@@ -92,7 +92,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.MyFa
                 public void onClick(View view) {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, DetailsActivity.class);
-                    context.startActivity(intent);
+                    //context.startActivity(intent);
                 }
             });
 

@@ -42,12 +42,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             callAllPaths.enqueue(new Callback<Paths>() {
                 @Override
                 public void onResponse(Call<Paths> call, Response<Paths> response) {
-                    updateSucceededAllPaths(response);
+
                     callAllStops = networkService.getAllStops();
                     callAllStops.enqueue(new Callback<Stops>() {
                         @Override
                         public void onResponse(Call<Stops> call, Response<Stops> response) {
-                            updateSucceededAllStops(response);
+
                             callAllStopGroups = networkService.getAllStopGroups();
                             callAllStopGroups.enqueue(new Callback<StopGroups>() {
                                 @Override
@@ -59,20 +59,20 @@ public class SplashScreenActivity extends AppCompatActivity {
                                     updateFailed(t);
                                 }
                             });
+                            updateSucceededAllStops(response);
                         }
                         @Override
                         public void onFailure(Call<Stops> call, Throwable t) {
                             updateFailed(t);
                         }
                     });
+                    updateSucceededAllPaths(response);
                 }
                 @Override
                 public void onFailure(Call<Paths> call, Throwable t) {
                     updateFailed(t);
                 }
             });
-
-
 
         } else {
             startIntentAndFinish(new Intent(SplashScreenActivity.this, MainActivity.class));
