@@ -26,6 +26,6 @@
         android:layout_height="wrap_content"
         android:text="@string/nav_header_title"
         android:textColor="#fff"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 </LinearLayout>

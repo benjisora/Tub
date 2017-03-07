@@ -4,8 +4,13 @@
     <string name="nav_favorites">Favoris</string>
     <string name="nav_map">Carte</string>
     <string name="nav_schedules">Horaires</string>
-    <string name="nav_settings">Parametres</string>
+    <string name="nav_settings">Paramètres</string>
     <string name="nav_header_title">Transports Urbains Bourg-en-Bresse</string>
     <string name="log_error">Erreur :</string>
-    <string name="action_refresh" translatable="false">Rafraichir</string>
+    <string name="added_fav">Ajouté aux favoris</string>
+    <string name="error_fetching_data">Erreur lors de la récupération des données du serveur</string>
+    <string name="removed_fav">Retiré des favoris</string>
+    <string name="error_drawing_line">Erreur pendant le dessin de la ligne</string>
+    <string name="error_initializing_map">Erreur pendant l\'initialisation de la carte</string>
+    <string name="error_loading_fragment">Erreur pendant le chargement du fragment</string>
 </resources>

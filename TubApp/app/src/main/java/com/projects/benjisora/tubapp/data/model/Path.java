@@ -1,24 +1,29 @@
 package com.projects.benjisora.tubapp.data.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.projects.benjisora.tubapp.data.database.TubDataBase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
- * Created by benjamin_saugues on 03/02/2017.
+ * Path class
  */
-
+@Table(database = TubDataBase.class)
 public class Path extends BaseModel {
 
     @PrimaryKey
     @Column
     @SerializedName("id")
-    private long id;
+    private int id;
 
     @Column
     @SerializedName("label")
     private String label;
+
+    @Column
+    private int number;
 
     @Column
     @SerializedName("color")
@@ -28,7 +33,7 @@ public class Path extends BaseModel {
     @SerializedName("order")
     private int order;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -52,11 +57,19 @@ public class Path extends BaseModel {
         this.color = color;
     }
 
-    public int getOrder() {
+    int getOrder() {
         return order;
     }
 
-    public void setOrder(int order) {
+    void setOrder(int order) {
         this.order = order;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    void setNumber(int number) {
+        this.number = number;
     }
 }
