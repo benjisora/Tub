@@ -10,6 +10,7 @@ import com.projects.benjisora.tubapp.data.model.StopGroup_Table;
 import com.projects.benjisora.tubapp.data.model.Stop_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -60,13 +61,11 @@ public class Utils {
      *
      * @return All the stored stops
      */
-    /*
     public List<Stop> getAllStops() {
         return SQLite.select()
                 .from(Stop.class)
                 .queryList();
     }
-    */
 
     /**
      * Database query to get a stop from its coordinates
@@ -101,6 +100,18 @@ public class Utils {
                                         .where(StopGroup_Table.line_id.eq(id))
                         )
                 )
+                .queryList();
+    }
+
+    public List<Path> getLineforStop(int id){
+        return SQLite.select()
+                .from(Path.class)
+                .where(Path_Table.id
+                .in(
+                        SQLite.select(StopGroup_Table.stop_id)
+                        .from(StopGroup.class)
+                        .where(StopGroup_Table.stop_id.eq(id))
+                ))
                 .queryList();
     }
 
