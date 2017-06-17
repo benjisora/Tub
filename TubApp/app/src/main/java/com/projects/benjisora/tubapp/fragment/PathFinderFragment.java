@@ -18,9 +18,13 @@ import com.projects.benjisora.tubapp.PathFinder;
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.adapter.SchedulesAdapter;
 import com.projects.benjisora.tubapp.data.database.Utils;
+import com.projects.benjisora.tubapp.data.model.Path;
 import com.projects.benjisora.tubapp.data.model.Stop;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,18 +49,34 @@ public class PathFinderFragment extends Fragment {
 
 
     @OnClick(R.id.getpath)
-    public void onClick(){
+    public void onClick(View view){
         if (mStartSpinner.getSelectedItem() == mEndSpinner.getSelectedItem()) {
             Toast.makeText(getContext(), "You need to select two different stops", Toast.LENGTH_SHORT).show();
         } else {
             Stop first = stopList.get(mStartSpinner.getSelectedItemPosition());
             Stop last = stopList.get(mEndSpinner.getSelectedItemPosition());
 
-            List<Stop> stopsToTake = PathFinder.getDirectionsOnSameLineBetween(first, last);
             String directions = "";
-            for (Stop stop : stopsToTake) {
-                directions += stop.toString() + " - ";
+            try{
+                HashMap<Path, ArrayList<Stop>> directionsHashMap = PathFinder.getDirectionsOnDifferentLinesBetween(first, last);
+                for (Map.Entry<Path, ArrayList<Stop>> entry : directionsHashMap.entrySet()) {
+                    for (Stop stop : entry.getValue()) {
+                        directions += "Ligne : " + entry.getKey().getNumber() + " Stop : " + stop.getLabel() + "\n";
+                    }
+                }
+            }catch (Exception e){
+
             }
+            try{
+                List<Stop> stopsToTake = PathFinder.getDirectionsOnSameLineBetween(first, last);
+                for (Stop stop : stopsToTake) {
+                    directions += stop.getLabel() + " - ";
+                }
+            }catch (Exception e){
+
+            }
+
+
             Toast.makeText(getContext(), directions, Toast.LENGTH_LONG).show();
         }
     }
@@ -77,13 +97,17 @@ public class PathFinderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_schedules, container, false);
+        View view = inflater.inflate(R.layout.fragment_pathfinder, container, false);
         ButterKnife.bind(this, view);
 
+        List<String> stopName = new ArrayList<>();
 
+        for(Stop stp: stopList){
+            stopName.add(stp.getLabel());
+        }
 
-        ArrayAdapter<Stop> adapter =
-                new ArrayAdapter<Stop>(getContext(), android.R.layout.simple_spinner_dropdown_item, stopList);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, stopName);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mStartSpinner.setAdapter(adapter);

@@ -36,8 +36,10 @@ public class PathFinder {
 
     private static List<Path> getLinesForStops(Stop fStop, Stop sStop) {
         ArrayList<Path> lines = new ArrayList<>();
-        for (Path line : getLineListForStop(fStop)) {
-            if (getLineListForStop(sStop).contains(line)) {
+        List<Path> fLineList = getLineListForStop(fStop);
+        List<Path> sLineList = getLineListForStop(sStop);
+        for (Path line : fLineList) {
+            if (sLineList.contains(line)) {
                 lines.add(line);
             }
         }
@@ -46,7 +48,7 @@ public class PathFinder {
 
     public static List<Stop> getDirectionsOnSameLineBetween(Stop start, Stop end) {
         int minStopsIndex = 0;
-        int minStopsCount;
+        int minStopsCount = 0;
         //init minStopsCount :
         ArrayList<Path> possibleLines = (ArrayList<Path>) getLinesForStops(start, end);
         ArrayList<Stop> initstopList = (ArrayList<Stop>) getStopListForLine(possibleLines.get(0));
@@ -63,6 +65,7 @@ public class PathFinder {
             if (stopListForCurrentLine.indexOf(start) < stopListForCurrentLine.indexOf(end)) {
                 trimmedStopList = new ArrayList<>(stopListForCurrentLine.subList(stopListForCurrentLine.indexOf(start), stopListForCurrentLine.indexOf(end)));
             } else {
+
                 trimmedStopList = new ArrayList<>(stopListForCurrentLine.subList(stopListForCurrentLine.indexOf(end), stopListForCurrentLine.indexOf(start)));
             }
 

@@ -108,7 +108,7 @@ public class Utils {
                 .from(Path.class)
                 .where(Path_Table.id
                 .in(
-                        SQLite.select(StopGroup_Table.stop_id)
+                        SQLite.select(StopGroup_Table.line_id)
                         .from(StopGroup.class)
                         .where(StopGroup_Table.stop_id.eq(id))
                 ))
