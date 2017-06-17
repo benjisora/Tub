@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.projects.benjisora.tubapp.R;
 import com.projects.benjisora.tubapp.fragment.FavoritesFragment;
 import com.projects.benjisora.tubapp.fragment.MapsFragment;
+import com.projects.benjisora.tubapp.fragment.PathFinderFragment;
 import com.projects.benjisora.tubapp.fragment.SchedulesFragment;
 
 import butterknife.BindView;
@@ -102,6 +103,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_favorites:
                 toolbar.setTitle("Favorites");
                 fragmentClass = FavoritesFragment.class;
+                break;
+            case R.id.nav_pathfinder:
+                toolbar.setTitle("PathFinder");
+                fragmentClass = PathFinderFragment.class;
                 break;
             case R.id.nav_settings:
                 intent = new Intent(MainActivity.this, SettingsActivity.class);
